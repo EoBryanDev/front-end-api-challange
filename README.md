@@ -1,70 +1,23 @@
-# Getting Started with Create React App
+# Frontend API Challange - Operações com API externa
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Esse projeto foi criado com o objetivo de realizar as operações solicitadas nos endpoints disponibilizados, como as de escrita e leitura. Para armazenamento e consulta dos dados filtrados, criei um outro projeto backend que pode ser analisado 'aqui' ->  [API Challange](https://github.com/EoBryanDev/api-challange)
 
-## Available Scripts
+## Descrição do projeto
 
-In the project directory, you can run:
+Para realizar o projeto da maneira mais dinâmica possível utilizei a biblioteca JS ReactJS para construção da interface gráfica.
 
-### `npm start`
+Como foi sugerido no desafio, fiz as configurações mais simples possíveis para utilizar melhor o tempo desenvolvendo a aplicação ao que realizando configurações.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+A aplicação consiste em realizar uma login através de um formulário simples, aonde que se o usuário for autenticado através de uma requisição a API, é armazenado o token no local storage e é redirecionado para página aonde os dados serão apresentados. Caso não autenticado, é retornado uma mensagem de erro.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Ao carregar a página utilizo o useEffect para já realizar a requisições no endpoint com o cabeçalho já preenchido com o token de autenticação.
 
-### `npm test`
+Nesta página, logo já é apresentado o duas tabelas com o retorno dos dados da API e os dados armazenados no banco de dados criado pela minha outra API(para isso o servidor deve estar rodando).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Exitem mais duas operações nesta tela, a de cadastro, que faz a requisição no endpoint para cadastrar dados enviados pelo formulário e, a de cadastro de informações no banco de dados pela minha outra API. Nesta segunda operação é filtrado o objeto através das informações já recuperadas com base no id do formulário e, depois de recuperado apenas o campo nome e data de nascimento, é enviado uma requisição de registro, deste novo objeto, no banco de dados por mim criado.
 
-### `npm run build`
+## Notas Finais
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Quando expirado a validade do token, a aplicação já direciona o erro gerado para uma página de 401 personalizada, que indica o redirecionamento a tela inicial para criação de uma nova sessão de login.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Para realizar as requisições a API utilizei o Axios e para fazer o roteamento entre as páginas o React Router Dom.

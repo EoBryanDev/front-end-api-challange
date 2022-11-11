@@ -5,15 +5,16 @@ import { useNavigate } from 'react-router-dom'
 import './style.css';
 
 function Home() {
+  const [error, setError] = useState('');
   const [login, setLogin] = useState({
     username: '',
     password: '',
-  })
+  });
   //const [token, setToken] = useState('');
   
 
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
  
   const getToken = async (e) => {
     e.preventDefault()
@@ -25,13 +26,20 @@ function Home() {
         }
       });
       let data = response.data.token;
-      console.log(data)
-      //setToken(data);
+      console.log(data);
       navigate("/dash");
-      localStorage.setItem("token", data)
+      localStorage.setItem("token", data);
+
+      login.username = '';
+      login.password = '';
+
 
     } catch (error) {
-      console.log(error)
+      login.username = '';
+      login.password = '';
+      if(error.response.status === 401) setError('Usuário/Senha Inválido');
+      setTimeout(() => {setError('')}, 2000)
+
     }
   }
   return (
@@ -52,6 +60,7 @@ function Home() {
               onChange={(e) => setLogin((prevState) => ({ ...prevState, password: e.target.value }))}
             />
             <button type="submit"> Login</button>
+            {error &&(<p className="error">{error}</p>)}
           </form>
         </div>
       </div>

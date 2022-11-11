@@ -1,0 +1,25 @@
+.containerError{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    color: white;
+}
+
+h1{
+    font-size: 70px;
+}
+.link{
+    color: white;
+    font-size: 20px;
+    margin-top: 20px;
+    text-decoration:none ;
+}
+.link a{
+    color: white;
+}
+.link a:hover{
+    border-bottom: 2px solid red;
+}

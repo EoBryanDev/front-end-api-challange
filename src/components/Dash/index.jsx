@@ -11,25 +11,9 @@ function Dash() {
     email: '',
     data_nascimento: '1958-09-04',
     data_criacao: '2021-12-01 08:54:21',
-  })
-  const [resPost, setResPost] = useState();
+  });
+  const [resPost, setResPost] = useState('');
   const [codigoDB, setCodigoDb] = useState();
-
-  const getPessoas = async () => {
-    try {
-      let response = await axios.get('http://168.138.231.9:10666/cadastro', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem("token")}`
-        }
-      })
-      console.log(response);
-      let data = response.data;
-      console.log(data);
-      setPessoas(data);
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   async function postPessoa(e) {
     e.preventDefault()
@@ -58,26 +42,8 @@ function Dash() {
       console.log(error)
     }
   }
-
-  /*async function postPessoaDB(e) {
-    e.preventDefault()
-
-    try {
-      let response = await axios.get(`http://localhost:3001/pessoa/cadastroDBteste/${codigoDB}`)
-      console.log(response);
-      let data = response.data.mensagem;
-      console.log(data);
-      setResPost(data);
-      setCodigoDb('');
-      setTimeout(() => {
-        setResPost('');
-      }, 2000);
-    } catch (error) {
-      console.log(error)
-    }
-  }*/
   async function postPessoaMongoDB(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     const pessoaFiltrada = pessoas.filter((pessoa) => {
       const filtrada = pessoa.codigo == codigoDB && (pessoa)
@@ -105,22 +71,37 @@ function Dash() {
       console.log(error.message)
     }
   }
-
-  async function getPessoasMongoDB() {
-
-    try {
-      let response = await axios.get('http://localhost:3001/db')
-
-      console.log(response);
-      let data = response.data;
-      console.log(data);
-      setPessoasDb(data);
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  
 
   useEffect(() => {
+    async function getPessoas() {
+      try {
+        let response = await axios.get('http://168.138.231.9:10666/cadastro', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+          }
+        })
+        console.log(response);
+        let data = response.data;
+        console.log(data);
+        setPessoas(data);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    async function getPessoasMongoDB() {
+
+      try {
+        let response = await axios.get('http://localhost:3001/db')
+  
+        console.log(response);
+        let data = response.data;
+        console.log(data);
+        setPessoasDb(data);
+      } catch (error) {
+        console.log(error)
+      }
+    }
     getPessoas()
     getPessoasMongoDB()
   }, [resPost])
@@ -185,14 +166,15 @@ function Dash() {
           </div>
           <div className="cadastroBanco">
             <form onSubmit={postPessoaMongoDB}>
-              <h2>Cadastro Senior</h2>
+              <h2>Cadastro MongoDB</h2>
               <label>Digite Id a ser inserido:</label>
               <input
-                type="text"
+                min="1"
+                type="number"
                 value={codigoDB}
                 onChange={(e) => setCodigoDb(e.target.value)}
               />
-              <button type="submit">cadastrar teste db</button>
+              <button type="submit">Cadastrar</button>
             </form>
           </div>
         </div>
