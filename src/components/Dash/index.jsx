@@ -5,6 +5,7 @@ import './styles.css';
 
 function Dash() {
   const [pessoas, setPessoas] = useState([]);
+  const [pessoasDb, setPessoasDb] = useState([]);
   const [cadastro, setCadastro] = useState({
     nome: '',
     email: '',
@@ -79,16 +80,16 @@ function Dash() {
     e.preventDefault()
 
     const pessoaFiltrada = pessoas.filter((pessoa) => {
-      const filtrada = pessoa.codigo == codigoDB &&( pessoa )
-      return filtrada 
+      const filtrada = pessoa.codigo == codigoDB && (pessoa)
+      return filtrada
     }
     )
     const itemDB = {
-      nome : pessoaFiltrada[0].nome,
+      nome: pessoaFiltrada[0].nome,
       nascimento: pessoaFiltrada[0].data_nascimento
     }
     try {
-      let response = await axios.post("http://localhost:3001/db",itemDB)
+      let response = await axios.post("http://localhost:3001/db", itemDB)
       console.log(response);
       let data = response.data.mensagem;
       console.log(data);
@@ -105,46 +106,63 @@ function Dash() {
     }
   }
 
+  async function getPessoasMongoDB() {
+
+    try {
+      let response = await axios.get('http://localhost:3001/db')
+
+      console.log(response);
+      let data = response.data;
+      console.log(data);
+      setPessoasDb(data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     getPessoas()
+    getPessoasMongoDB()
   }, [resPost])
 
   return (
-      <div className="container">
-        <div className="tableContainer">
-          <div class="outer-wrapper">
-            <div class="table-wrapper">
-              <div>
-                <table>
-                  <tr>
-                    <th>Código</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Data Nasc</th>
-                    <th>Registro</th>
-                  </tr>
+    <div className="container">
+      <div className="tableContainer">
+        <div class="outer-wrapper">
+          <h2>Dados da API</h2>
+          <div class="table-wrapper">
+            <div>
+              <table>
+                <tr>
+                  <th>Código</th>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Data Nasc</th>
+                  <th>Registro</th>
+                </tr>
 
-                  {pessoas !== false ?
-                    pessoas.map((pessoa) => (
-                      <tr key={pessoa.codigo}>
-                        <td>{pessoa.codigo}</td>
-                        <td>{pessoa.nome}</td>
-                        <td>{pessoa.email}</td>
-                        <td>{pessoa.data_nascimento}</td>
-                        <td>{pessoa.data_criacao}</td>
-                      </tr>
-                    ))
-                    : ''}
+                {pessoas !== false ?
+                  pessoas.map((pessoa) => (
+                    <tr key={pessoa.codigo}>
+                      <td>{pessoa.codigo}</td>
+                      <td>{pessoa.nome}</td>
+                      <td>{pessoa.email}</td>
+                      <td>{pessoa.data_nascimento}</td>
+                      <td>{pessoa.data_criacao}</td>
+                    </tr>
+                  ))
+                  : ''}
 
-                </table>
-              </div>
+              </table>
             </div>
           </div>
         </div>
-        <div className="operacoesContainer">
+      </div>
+      <div className="operacoesContainer">
+        <div className="sup">
           <div className="cadastro">
-            
-            
+
+
             <form onSubmit={postPessoa}>
               <h2>Cadastro Senior</h2>
               <label>Nome</label>
@@ -161,13 +179,14 @@ function Dash() {
               />
               <button type="submit">Cadastrar</button>
               {resPost && (
-              resPost
-            )}
+                resPost
+              )}
             </form>
           </div>
           <div className="cadastroBanco">
             <form onSubmit={postPessoaMongoDB}>
-              <label>Cadastro Db</label>
+              <h2>Cadastro Senior</h2>
+              <label>Digite Id a ser inserido:</label>
               <input
                 type="text"
                 value={codigoDB}
@@ -178,6 +197,34 @@ function Dash() {
           </div>
         </div>
       </div>
+        <div className="dadosBanco">
+          <div className="tableContainer">
+            <div class="outer-wrapper">
+              <h2>Dados da MongoDB</h2>
+              <div class="table-wrapper">
+                <div>
+                  <table>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Data Nasc</th>
+                    </tr>
+
+                    {pessoasDb !== false ?
+                      pessoasDb.map((pessoa) => (
+                        <tr key={pessoa.codigo}>
+                          <td>{pessoa.nome}</td>
+                          <td>{pessoa.nascimento}</td>
+                        </tr>
+                      ))
+                      : ''}
+
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
   );
 }
 
