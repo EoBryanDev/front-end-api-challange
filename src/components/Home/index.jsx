@@ -4,16 +4,17 @@ import { useNavigate } from 'react-router-dom'
 
 import './style.css';
 
-
 function Home() {
   const [login, setLogin] = useState({
     username: '',
     password: '',
   })
   //const [token, setToken] = useState('');
+  
+
 
   const navigate = useNavigate()
-
+ 
   const getToken = async (e) => {
     e.preventDefault()
     try {

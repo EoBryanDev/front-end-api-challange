@@ -58,7 +58,7 @@ function Dash() {
     }
   }
 
-  async function postPessoaDB(e) {
+  /*async function postPessoaDB(e) {
     e.preventDefault()
 
     try {
@@ -74,22 +74,34 @@ function Dash() {
     } catch (error) {
       console.log(error)
     }
-  }
+  }*/
   async function postPessoaMongoDB(e) {
     e.preventDefault()
 
+    const pessoaFiltrada = pessoas.filter((pessoa) => {
+      const filtrada = pessoa.codigo == codigoDB &&( pessoa )
+      return filtrada 
+    }
+    )
+    const itemDB = {
+      nome : pessoaFiltrada[0].nome,
+      nascimento: pessoaFiltrada[0].data_nascimento
+    }
     try {
-      let response = await axios.post(`http://localhost:3001/db/cadastro/${codigoDB}`)
+      let response = await axios.post("http://localhost:3001/db",itemDB)
       console.log(response);
       let data = response.data.mensagem;
       console.log(data);
+
       setResPost(data);
       setCodigoDb('');
+
       setTimeout(() => {
         setResPost('');
+        setCodigoDb('');
       }, 2000);
     } catch (error) {
-      console.log(error)
+      console.log(error.message)
     }
   }
 
@@ -154,7 +166,7 @@ function Dash() {
             </form>
           </div>
           <div className="cadastroBanco">
-            <form onSubmit={postPessoaDB}>
+            <form onSubmit={postPessoaMongoDB}>
               <label>Cadastro Db</label>
               <input
                 type="text"
